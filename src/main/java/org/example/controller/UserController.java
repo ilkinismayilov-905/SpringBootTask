@@ -35,7 +35,7 @@ public class UserController {
        Optional<User> user = userService.viewById(id);
        if(user.isPresent()){
            userService.deleteUser(id);
-           return ResponseEntity.noContent().build();
+           return ResponseEntity.ok().build();
        }
         return ResponseEntity.notFound().build();
     }

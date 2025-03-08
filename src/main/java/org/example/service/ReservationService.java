@@ -13,7 +13,7 @@ import java.util.List;
 @Transactional
 public class ReservationService {
 
-    private ReservationRepository reservationRepository;
+    private final ReservationRepository reservationRepository;
 
     @Autowired
     public ReservationService(ReservationRepository reservationRepository) {

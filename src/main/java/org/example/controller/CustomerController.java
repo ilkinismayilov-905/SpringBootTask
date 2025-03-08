@@ -14,7 +14,7 @@ import java.util.Optional;
 @RequestMapping("/customers")
 public class CustomerController {
 
-    private CustomerService customerService;
+    private final CustomerService customerService;
 
     @Autowired
     public CustomerController(CustomerService customerService) {
@@ -22,8 +22,8 @@ public class CustomerController {
     }
 
     @GetMapping
-    public List<Customer> getAll(){
-        return customerService.getAllCustomers();
+    public ResponseEntity<List<Customer>> getAll(){
+        return ResponseEntity.ok(customerService.getAllCustomers());
     }
 
     @PostMapping("/add")

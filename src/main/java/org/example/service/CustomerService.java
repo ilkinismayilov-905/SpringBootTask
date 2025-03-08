@@ -14,7 +14,7 @@ import java.util.Optional;
 @Transactional
 public class CustomerService {
 
-    private CustomerRepository customerRepository;
+    private final CustomerRepository customerRepository;
 
     @Autowired
     public CustomerService(CustomerRepository customerRepository) {

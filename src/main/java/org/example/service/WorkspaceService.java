@@ -14,7 +14,7 @@ import java.util.Optional;
 @Transactional
 public class WorkspaceService {
 
-    private WorkspaceRepository workspaceRepository;
+    private final WorkspaceRepository workspaceRepository;
 
     @Autowired
     public WorkspaceService(WorkspaceRepository workspaceRepository) {

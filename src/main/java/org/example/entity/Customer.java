@@ -1,12 +1,14 @@
 package org.example.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity(name = "customers")
 public class Customer {
@@ -15,17 +17,31 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long customerId;
 
-    @NotNull(message = "Name is required")
-    @Size(min=3,max = 20)
+   @Column(nullable = false,length = 10)
     private String name;
 
     @Email
-    @NotNull(message = "Email cannot be null")
+    @Column(nullable = false)
     private String email;
 
     @NotNull
-    @Size(min=10,max=14)
+    @Column(nullable = false,length = 13)
     private String phone;
+
+    @OneToMany(mappedBy = "customer",cascade = CascadeType.ALL)
+    private List<Reservation> reservations;
+
+
+    @CreationTimestamp
+    private LocalDateTime createdTime;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedTime;
+
+    @PreUpdate
+    public void update(){
+        this.updatedTime=LocalDateTime.now();
+    }
 
     public Customer(String name, String email, String phone) {
         this.name = name;

@@ -4,6 +4,7 @@ import jakarta.validation.constraints.Positive;
 import org.example.entity.Reservation;
 import org.example.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +28,7 @@ public class ReservationController {
 
     @PostMapping("/add")
     public ResponseEntity<Reservation> createReservation(@RequestBody Reservation reservation){
-        reservationService.createReservation(reservation);
-        return ResponseEntity.ok().build();
+        Reservation createdReservation = reservationService.createReservation(reservation);
+        return new ResponseEntity<>(createdReservation, HttpStatus.CREATED);
     }
 }

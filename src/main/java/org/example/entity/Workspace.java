@@ -1,10 +1,13 @@
 package org.example.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import org.example.enums.WorkspaceType;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity(name = "workspaces")
 public class Workspace {
@@ -16,16 +19,31 @@ public class Workspace {
     @NotNull(message = "name is required")
     private String name;
 
-    @NotNull(message = "type is required")
-    private String type;
 
-    @NotNull(message = "capacity is required")
+    @Enumerated(EnumType.STRING)
+    private WorkspaceType type;
+
+    @Column(nullable = false)
     private int capacity;
 
-    @NotNull
+    @Column(nullable = false)
     private boolean available;
 
-    public Workspace(String name, String type, int capacity, boolean available) {
+    @CreationTimestamp
+    private LocalDateTime createdDate;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedDate;
+
+    @Lob
+    private String description;
+
+    @OneToMany(mappedBy = "workspace",cascade = CascadeType.ALL)
+    private List<Reservation> reservations;
+
+
+
+    public Workspace(String name, WorkspaceType type, int capacity, boolean available) {
         this.name = name;
         this.type = type;
         this.capacity = capacity;
@@ -52,11 +70,11 @@ public class Workspace {
     }
 
 
-    public String getType(){
+    public WorkspaceType getType(){
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(WorkspaceType type) {
         this.type = type;
     }
 
@@ -66,6 +84,11 @@ public class Workspace {
 
     public void setCapacity(int capacity){
         this.capacity=capacity;
+    }
+
+    @PreUpdate
+    public void update(){
+        this.updatedDate=LocalDateTime.now();
     }
 
 

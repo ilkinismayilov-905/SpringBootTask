@@ -2,7 +2,9 @@ package org.example.service;
 
 import jakarta.transaction.Transactional;
 import org.example.entity.Customer;
+import org.example.exceptions.NotFoundByIdException;
 import org.example.repository.CustomerRepository;
+import org.example.repository.GeneralRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +14,7 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class CustomerService {
+public class CustomerService implements GeneralRepository<> {
 
     private final CustomerRepository customerRepository;
 
@@ -33,11 +35,16 @@ public class CustomerService {
         return customerRepository.save(customer);
     }
 
+
     public Optional<Customer> findById(Long customerId){
-        if(customerRepository.existsById(customerId)){
-           return customerRepository.findById(customerId);
-        }
-        return null;
+
+       Optional<Customer> customer = customerRepository.findById(customerId);
+
+       if(customer.isEmpty()){
+           throw  new NotFoundByIdException();
+       }
+       return customer;
+
     }
 
     public void deleteCustomer(Long customerId){

@@ -24,10 +24,12 @@ public class Reservation {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
+//    @JoinColumn(name = "customerId", nullable = false)
     private Customer customer;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
+//    @JoinColumn(name = "id", nullable = false)
     private Workspace workspace;
 
 

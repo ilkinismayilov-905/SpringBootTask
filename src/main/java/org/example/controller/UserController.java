@@ -25,13 +25,13 @@ public class UserController {
 
     @GetMapping("/getAll")
     public List<User> getUser(){
-       return userServiceImpl.getUser();
+       return userServiceImpl.getAllUsers();
     }
 
     //Delete
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable long id){
-       Optional<User> user = userServiceImpl.viewById(id);
+       Optional<User> user = userServiceImpl.getUserById(id);
        if(user.isPresent()){
            userServiceImpl.deleteUser(id);
            return ResponseEntity.ok().build();
@@ -42,7 +42,7 @@ public class UserController {
     //Update
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable long id, @Valid @RequestBody User user){
-        Optional<User> existingUser = userServiceImpl.viewById(id);
+        Optional<User> existingUser = userServiceImpl.getUserById(id);
         if(existingUser.isPresent()){
             user.setId(id);
             User userUpdated = userServiceImpl.createUser(user);
@@ -60,7 +60,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
-        Optional<User> user = userServiceImpl.viewById(id);
+        Optional<User> user = userServiceImpl.getUserById(id);
         return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 }

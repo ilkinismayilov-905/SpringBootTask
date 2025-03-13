@@ -1,6 +1,7 @@
 package org.example.service.impl;
 
 import jakarta.transaction.Transactional;
+import org.example.entity.Customer;
 import org.example.entity.Reservation;
 import org.example.enums.ReservationStatus;
 import org.example.exceptions.EmptyListExcepption;
@@ -45,6 +46,15 @@ public class ReservationServiceImpl {
 
     public List<Reservation> findByStatus(ReservationStatus status){
         return reservationRepository.findByStatus(status);
+    }
+
+    public void deleteReservationById(Long id){
+        Optional<Reservation> reservation = reservationRepository.findById(id);
+
+        if(reservation.isPresent()){
+            reservationRepository.deleteById(id);
+        }
+        throw new NotFoundByIdException();
     }
 
     @Scheduled(cron = "0 0 0 * * *")

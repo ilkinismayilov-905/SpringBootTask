@@ -28,15 +28,20 @@ public class UserServiceImpl {
         return userRepository.save(user);
     }
 
-//    public User updateUser(long id,User user){
-//        if(userRepository.existsById(id)){
-//            user.setId(id);
-//            return userRepository.updateUser(id,user);
-//        }
-//        return null;
-//    }
+    public User updateUser(long id,User updatedUser){
+        if(userRepository.existsById(id)){
+           User user = userRepository.findUserById(id);
+           user.setId(updatedUser.getId());
+           user.setAge(updatedUser.getAge());
+           user.setEmail(updatedUser.getEmail());
+           user.setName(updatedUser.getName());
 
-    public List<User> getUser(){
+           return userRepository.save(user);
+        }
+        return null;
+    }
+
+    public List<User> getAllUsers(){
         List<User> userList = new ArrayList<>();
         for(User user:userRepository.findAll()){
             userList.add(user);
@@ -48,9 +53,9 @@ public class UserServiceImpl {
         userRepository.deleteById(id);
     }
 
-    public Optional<User> viewById(long id){
+    public Optional<User> getUserById(long id){
         if(userRepository.existsById(id)){
-            userRepository.findById(id);
+           return userRepository.findById(id);
         }
         return null;
     }

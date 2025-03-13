@@ -5,6 +5,7 @@ import org.example.entity.Workspace;
 import org.example.enums.WorkspaceType;
 import org.example.exceptions.EmptyListExcepption;
 import org.example.exceptions.NotFoundByIdException;
+import org.example.exceptions.TypeNotFoundException;
 import org.example.repository.WorkspaceRepository;
 import org.example.service.WorkspaceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,20 @@ public class WorkspaceServiceImpl {
     }
 
     public List<Workspace> findByType(WorkspaceType workspaceType){
-        return workspaceRepository.findByType(workspaceType);
+        List<Workspace> workspace = workspaceRepository.findByType(workspaceType);
+        if(workspace.isEmpty()){
+            throw new TypeNotFoundException();
+        }
+        return workspace;
+    }
+
+    public void deleteWorkspaceById(Long id){
+        Optional<Workspace> workspace = workspaceRepository.findById(id);
+
+        if (workspace.isEmpty()){
+            throw new NotFoundByIdException();
+        }
+        workspaceRepository.deleteById(id);
     }
 
 

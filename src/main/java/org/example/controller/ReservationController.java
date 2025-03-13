@@ -22,8 +22,8 @@ public class ReservationController {
     }
 
     @GetMapping("/all")
-    public List<Reservation> getAllReservations(){
-        return reservationServiceImpl.getAllReservations();
+    public ResponseEntity<List<Reservation>> getAllReservations(){
+        return ResponseEntity.ok(reservationServiceImpl.getAllReservations());
     }
 
     @PostMapping("/add")
@@ -36,4 +36,10 @@ public class ReservationController {
     public ResponseEntity<List<Reservation>> getReservationByStatus(@RequestParam("status")ReservationStatus status){
         return ResponseEntity.ok(reservationServiceImpl.findByStatus(status));
     }
+
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<Reservation> deleteReservation(@PathVariable Long id){
+//        reservationServiceImpl.deleteReservationById(id);
+//        return ResponseEntity.ok().build();
+//    }
 }

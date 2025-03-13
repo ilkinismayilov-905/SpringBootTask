@@ -50,11 +50,7 @@ public class CustomerController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Customer> deleteCustomer(@PathVariable Long id){
-        Optional<Customer> customer = customerServiceImpl.findById(id);
-        if(customer.isPresent()){
-            customerServiceImpl.deleteCustomer(id);
-            return ResponseEntity.ok().build();
-        }
-        return ResponseEntity.notFound().build();
+        customerServiceImpl.deleteCustomer(id);
+        return ResponseEntity.ok().build();
     }
 }

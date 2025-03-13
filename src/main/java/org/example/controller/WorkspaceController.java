@@ -39,8 +39,14 @@ public class WorkspaceController {
         return workspace.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/types")
-    public ResponseEntity<List<Workspace>> getWorkspaceByType(@RequestParam("types")WorkspaceType type){
+    @GetMapping("/type/{type}")
+    public ResponseEntity<List<Workspace>> getWorkspaceByType(@PathVariable WorkspaceType type){
         return ResponseEntity.ok(workspaceServiceImpl.findByType(type));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Workspace> deleteWorkspaceById(@PathVariable Long id){
+        workspaceServiceImpl.deleteWorkspaceById(id);
+        return ResponseEntity.ok().build();
     }
 }

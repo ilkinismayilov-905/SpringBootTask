@@ -1,8 +1,8 @@
 package org.example.controller;
 
-import jakarta.validation.constraints.Positive;
 import org.example.entity.Reservation;
-import org.example.service.ReservationService;
+import org.example.enums.ReservationStatus;
+import org.example.service.impl.ReservationServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,21 +14,26 @@ import java.util.List;
 @RequestMapping("/reservations")
 public class ReservationController {
 
-    private ReservationService reservationService;
+    private ReservationServiceImpl reservationServiceImpl;
 
     @Autowired
-    public ReservationController(ReservationService reservationService) {
-        this.reservationService = reservationService;
+    public ReservationController(ReservationServiceImpl reservationServiceImpl) {
+        this.reservationServiceImpl = reservationServiceImpl;
     }
 
     @GetMapping("/all")
     public List<Reservation> getAllReservations(){
-        return reservationService.getAllReservations();
+        return reservationServiceImpl.getAllReservations();
     }
 
     @PostMapping("/add")
     public ResponseEntity<Reservation> createReservation(@RequestBody Reservation reservation){
-        Reservation createdReservation = reservationService.createReservation(reservation);
+        Reservation createdReservation = reservationServiceImpl.createReservation(reservation);
         return new ResponseEntity<>(createdReservation, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/status")
+    public ResponseEntity<List<Reservation>> getReservationByStatus(@RequestParam("status")ReservationStatus status){
+        return ResponseEntity.ok(reservationServiceImpl.findByStatus(status));
     }
 }

@@ -3,9 +3,8 @@ package org.example.controller;
 
 import jakarta.validation.Valid;
 import org.example.entity.User;
-import org.example.service.UserService;
+import org.example.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,24 +16,24 @@ import java.util.Optional;
 public class UserController {
 
 
-    private UserService userService;
+    private UserServiceImpl userServiceImpl;
 
     @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
+    public UserController(UserServiceImpl userServiceImpl) {
+        this.userServiceImpl = userServiceImpl;
     }
 
     @GetMapping("/getAll")
     public List<User> getUser(){
-       return userService.getUser();
+       return userServiceImpl.getUser();
     }
 
     //Delete
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable long id){
-       Optional<User> user = userService.viewById(id);
+       Optional<User> user = userServiceImpl.viewById(id);
        if(user.isPresent()){
-           userService.deleteUser(id);
+           userServiceImpl.deleteUser(id);
            return ResponseEntity.ok().build();
        }
         return ResponseEntity.notFound().build();
@@ -43,10 +42,10 @@ public class UserController {
     //Update
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable long id, @Valid @RequestBody User user){
-        Optional<User> existingUser = userService.viewById(id);
+        Optional<User> existingUser = userServiceImpl.viewById(id);
         if(existingUser.isPresent()){
             user.setId(id);
-            User userUpdated = userService.createUser(user);
+            User userUpdated = userServiceImpl.createUser(user);
             return ResponseEntity.ok(userUpdated);
         }
         return ResponseEntity.notFound().build();
@@ -55,13 +54,13 @@ public class UserController {
     //ADD
     @PostMapping("/add")
     public ResponseEntity<User> createUser(@Valid @RequestBody User user){
-        userService.createUser(user);
+        userServiceImpl.createUser(user);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
-        Optional<User> user = userService.viewById(id);
+        Optional<User> user = userServiceImpl.viewById(id);
         return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 }

@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class CustomerServiceImpl {
+public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
 
@@ -24,66 +24,68 @@ public class CustomerServiceImpl {
     public CustomerServiceImpl(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
-
-    public List<Customer> getAllCustomers(){
-       List<Customer> customerList = new ArrayList<>();
-       for(Customer customer:customerRepository.findAll()){
-           customerList.add(customer);
-       }
-       if(customerList.isEmpty()){
-           throw new EmptyListExcepption("Customer List Is Empty");
-       }
-       return customerList;
-    }
-
-    public void createCustomer(Customer customer){
-         customerRepository.save(customer);
-    }
-
-
-    public Optional<Customer> findById(Long customerId){
-        Optional<Customer> customer = customerRepository.findById(customerId);
-
-        if(customer.isEmpty()){
-            throw new NotFoundByIdException();
-        }
-        return customer;
-
-    }
-
-    public void deleteCustomer(Long customerId){
-        Optional<Customer> customer = customerRepository.findById(customerId);
-
-        if(customer.isPresent()){
-            customerRepository.deleteById(customerId);
-        }
-        throw new NotFoundByIdException();
-    }
-
-//    @Override
-//    public void deleteById(Object id) {
-//        if(customerRepository.existsById((Long) id)){
-//            customerRepository.deleteById((Long) id);
-//        }
+//
+//    public List<Customer> getAllCustomers(){
+//       List<Customer> customerList = new ArrayList<>();
+//       for(Customer customer:customerRepository.findAll()){
+//           customerList.add(customer);
+//       }
+//       if(customerList.isEmpty()){
+//           throw new EmptyListExcepption("Customer List Is Empty");
+//       }
+//       return customerList;
 //    }
 //
-//    @Override
-//    public T save(Object entity) {
-//       return (T) customerRepository.save(entity);
+//    public void createCustomer(Customer customer){
+//         customerRepository.save(customer);
 //    }
 //
-//    @Override
-//    public Optional<T> getById(Object id) {
-//        Optional<T> customer = (Optional<T>) customerRepository.findById((Long) id);
+//
+//    public Optional<Customer> findById(Long customerId){
+//        Optional<Customer> customer = customerRepository.findById(customerId);
 //
 //        if(customer.isEmpty()){
-//            throw  new NotFoundByIdException();
+//            throw new NotFoundByIdException();
 //        }
 //        return customer;
+//
 //    }
 //
-//    @Override
-//    public List<T> getAll() {
-//        return (List<T>) customerRepository.findAll();
+//    public void deleteCustomer(Long customerId){
+//        Optional<Customer> customer = customerRepository.findById(customerId);
+//
+//        if(customer.isPresent()){
+//            customerRepository.deleteById(customerId);
+//        }
+//        throw new NotFoundByIdException();
 //    }
+
+    @Override
+    public void deleteById(Long id) {
+        if(customerRepository.existsById( id)){
+            customerRepository.deleteById( id);
+        }
+    }
+
+
+    @Override
+    public Optional<Customer> getById(Long id) {
+        Optional<Customer> customer =  customerRepository.findById((Long) id);
+
+        if(customer.isEmpty()){
+            throw  new NotFoundByIdException();
+        }
+        return customer;
+    }
+
+    @Override
+    public void save(Customer entity) {
+         customerRepository.save(entity);
+    }
+
+
+    @Override
+    public List<Customer> getAll() {
+        return (List<Customer>) customerRepository.findAll();
+    }
 }

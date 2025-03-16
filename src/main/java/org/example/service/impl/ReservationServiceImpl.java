@@ -3,6 +3,7 @@ package org.example.service.impl;
 import jakarta.transaction.Transactional;
 import org.example.entity.Customer;
 import org.example.entity.Reservation;
+import org.example.entity.User;
 import org.example.enums.ReservationStatus;
 import org.example.exceptions.EmptyListExcepption;
 import org.example.exceptions.NotFoundByIdException;
@@ -50,7 +51,6 @@ public class ReservationServiceImpl {
 
     public void deleteReservationById(Long id){
         Optional<Reservation> reservation = reservationRepository.findById(id);
-
         if(reservation.isPresent()){
             reservationRepository.deleteById(id);
         }

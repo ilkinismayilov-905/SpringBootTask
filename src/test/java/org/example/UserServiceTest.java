@@ -27,6 +27,7 @@ public class UserServiceTest {
     @InjectMocks
     private UserServiceImpl userServiceImpl;
 
+
     @Test
     void testAddUser(){
         User user = new User("Ilkin","ilkin@gmail.com",19L);
@@ -62,6 +63,7 @@ public class UserServiceTest {
         userServiceImpl.deleteUser(1L);
         verify(userRepository,times(1)).deleteById(1L);
     }
+
 
 
 }

@@ -2,14 +2,13 @@ package org.example.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.stereotype.Component;
 
 @Entity(name="users")
-@Data
-@Getter
-@Setter
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,6 +17,7 @@ public class User {
     @NotNull(message = "Name is required")
     @Size(min=3,max = 20)
     private String name;
+
 
     @NotNull(message = "Email is required")
     @Email(message = "Your email should be correct")
@@ -44,11 +44,12 @@ public class User {
 //        this.age = age;
 //    }
 
-    public long getId() {
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -68,11 +69,11 @@ public class User {
         this.email = email;
     }
 
-    public long getAge() {
+    public Long getAge() {
         return age;
     }
 
-    public void setAge(long age) {
+    public void setAge(Long age) {
         this.age = age;
     }
 }

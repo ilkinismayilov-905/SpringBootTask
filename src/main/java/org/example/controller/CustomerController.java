@@ -27,12 +27,12 @@ public class CustomerController {
 
     @GetMapping
     public ResponseEntity<List<Customer>> getAll(){
-        return ResponseEntity.ok(customerServiceImpl.getAllCustomers());
+        return ResponseEntity.ok(customerServiceImpl.getAll());
     }
 
     @PostMapping("/add")
     public ResponseEntity<Customer> createCustomer(@Valid @RequestBody Customer customer){
-         customerServiceImpl.createCustomer(customer);
+         customerServiceImpl.save(customer);
          return ResponseEntity.ok().build();
     }
 
@@ -44,13 +44,13 @@ public class CustomerController {
     )
     @GetMapping("/{id}")
     public ResponseEntity<Customer> getCustomerById(@PathVariable Long id){
-        Optional<Customer> customer = customerServiceImpl.findById(id);
+        Optional<Customer> customer = customerServiceImpl.getById(id);
         return customer.map(ResponseEntity::ok).orElseThrow();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Customer> deleteCustomer(@PathVariable Long id){
-        customerServiceImpl.deleteCustomer(id);
+        customerServiceImpl.deleteById(id);
         return ResponseEntity.ok().build();
     }
 }

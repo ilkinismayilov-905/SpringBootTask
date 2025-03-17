@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.example.entity.Customer;
 //import org.example.exceptionHandler.GlobalExceptionHandler;
+import org.example.exceptions.NotFoundByIdException;
 import org.example.service.impl.CustomerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -43,14 +44,21 @@ public class CustomerController {
     }
     )
     @GetMapping("/{id}")
-    public ResponseEntity<Customer> getCustomerById(@PathVariable Long id){
+    public ResponseEntity<Optional<Customer>> getCustomerById(@PathVariable Long id){
         Optional<Customer> customer = customerServiceImpl.getById(id);
-        return customer.map(ResponseEntity::ok).orElseThrow();
+        if (customer == null) {
+            throw new NotFoundByIdException();
+        }
+        return ResponseEntity.ok(customer);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Customer> deleteCustomer(@PathVariable Long id){
+    public ResponseEntity<Optional<Customer>> deleteCustomer(@PathVariable Long id){
+        Optional<Customer> customer = customerServiceImpl.getById(id);
+        if (customer == null) {
+            throw new NotFoundByIdException();
+        }
         customerServiceImpl.deleteById(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(customer);
     }
 }

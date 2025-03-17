@@ -2,6 +2,7 @@ package org.example.service.impl;
 
 import jakarta.transaction.Transactional;
 import org.example.entity.User;
+import org.example.exceptions.EmptyListExcepption;
 import org.example.exceptions.NotFoundByIdException;
 import org.example.repository.UserRepository;
 import org.example.service.UserService;
@@ -14,7 +15,7 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class UserServiceImpl {
+public class UserServiceImpl implements UserService{
 
 
     private UserRepository userRepository;
@@ -24,40 +25,73 @@ public class UserServiceImpl {
         this.userRepository = userRepository;
     }
 
-    public User createUser(User user){
-        return userRepository.save(user);
-    }
+//    public User createUser(User user){
+//        return userRepository.save(user);
+//    }
+//
+//    public User updateUser(long id,User updatedUser){
+//        if(userRepository.existsById(id)){
+//           User user = userRepository.findUserById(id);
+//           user.setId(updatedUser.getId());
+//           user.setAge(updatedUser.getAge());
+//           user.setEmail(updatedUser.getEmail());
+//           user.setName(updatedUser.getName());
+//
+//           return userRepository.save(user);
+//        }
+//        return null;
+//    }
+//
+//    public List<User> getAllUsers(){
+//        List<User> userList = new ArrayList<>();
+//        for(User user:userRepository.findAll()){
+//            userList.add(user);
+//        }
+//        return userList;
+//    }
+//
+//    public void deleteUser(long id){
+//        userRepository.deleteById(id);
+//    }
+//
+//    public Optional<User> getUserById(long id){
+//        if(userRepository.existsById(id)){
+//           return userRepository.findById(id);
+//        }
+//        return null;
+//    }
 
-    public User updateUser(long id,User updatedUser){
-        if(userRepository.existsById(id)){
-           User user = userRepository.findUserById(id);
-           user.setId(updatedUser.getId());
-           user.setAge(updatedUser.getAge());
-           user.setEmail(updatedUser.getEmail());
-           user.setName(updatedUser.getName());
+    @Override
+    public void deleteById(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundByIdException());
 
-           return userRepository.save(user);
-        }
-        return null;
-    }
-
-    public List<User> getAllUsers(){
-        List<User> userList = new ArrayList<>();
-        for(User user:userRepository.findAll()){
-            userList.add(user);
-        }
-        return userList;
-    }
-
-    public void deleteUser(long id){
         userRepository.deleteById(id);
     }
 
-    public Optional<User> getUserById(long id){
-        if(userRepository.existsById(id)){
-           return userRepository.findById(id);
+    @Override
+    public User save(User entity) {
+        return userRepository.save(entity);
+    }
+
+    @Override
+    public Optional<User> getById(Long id) {
+        Optional<User> user = Optional.ofNullable(userRepository.findUserById(id));
+
+        if(user.isEmpty()){
+            throw new NotFoundByIdException();
         }
-        return null;
+        return user;
+    }
+
+    @Override
+    public List<User> getAll() {
+        List<User> userList = userRepository.findAll();
+
+        if(userList.isEmpty()){
+            throw new EmptyListExcepption("This list is empty");
+        }
+        return userList;
     }
 
 //    @Override

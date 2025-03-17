@@ -65,12 +65,13 @@ public class CustomerServiceImpl implements CustomerService {
         if(customerRepository.existsById( id)){
             customerRepository.deleteById( id);
         }
+        throw new NotFoundByIdException();
     }
 
 
     @Override
     public Optional<Customer> getById(Long id) {
-        Optional<Customer> customer =  customerRepository.findById((Long) id);
+        Optional<Customer> customer =  customerRepository.findById( id);
 
         if(customer.isEmpty()){
             throw  new NotFoundByIdException();
@@ -79,13 +80,13 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void save(Customer entity) {
-         customerRepository.save(entity);
+    public Customer save(Customer entity) {
+        return customerRepository.save(entity);
     }
 
 
     @Override
     public List<Customer> getAll() {
-        return (List<Customer>) customerRepository.findAll();
+        return customerRepository.findAll();
     }
 }

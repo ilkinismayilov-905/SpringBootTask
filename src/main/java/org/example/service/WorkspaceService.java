@@ -1,4 +1,6 @@
 package org.example.service;
 
-public interface WorkspaceService<T,K> extends GeneralService {
+import org.example.entity.Workspace;
+
+public interface WorkspaceService extends GeneralService<Workspace,Long> {
 }

@@ -24,12 +24,12 @@ public class WorkspaceController {
 
     @GetMapping("/all")
     public ResponseEntity<List<Workspace>> getAll(){
-        return ResponseEntity.ok(workspaceServiceImpl.getAllSpaces());
+        return ResponseEntity.ok(workspaceServiceImpl.getAll());
     }
 
     @PostMapping("/add")
     public ResponseEntity<Workspace> createWorkspace(@Valid @RequestBody Workspace workspace){
-        workspaceServiceImpl.createWorkspace(workspace);
+        workspaceServiceImpl.save(workspace);
         return ResponseEntity.ok().build();
     }
 

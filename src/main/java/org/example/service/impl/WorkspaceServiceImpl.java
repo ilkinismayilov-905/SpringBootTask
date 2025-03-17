@@ -17,7 +17,7 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class WorkspaceServiceImpl {
+public class WorkspaceServiceImpl implements WorkspaceService{
 
     private final WorkspaceRepository workspaceRepository;
 
@@ -26,19 +26,32 @@ public class WorkspaceServiceImpl {
         this.workspaceRepository = workspaceRepository;
     }
 
-    public List<Workspace> getAllSpaces(){
-        List<Workspace> workspaceList = new ArrayList<>();
-       for(Workspace workspace : workspaceRepository.findAll()){
-           workspaceList.add(workspace);
-       }
-       if(workspaceList.isEmpty()){
-           throw new EmptyListExcepption("Workspace List Is Empty");
-       }
-       return workspaceList;
+//    public List<Workspace> getAllSpaces(){
+//        List<Workspace> workspaceList = new ArrayList<>();
+//       for(Workspace workspace : workspaceRepository.findAll()){
+//           workspaceList.add(workspace);
+//       }
+//       if(workspaceList.isEmpty()){
+//           throw new EmptyListExcepption("Workspace List Is Empty");
+//       }
+//       return workspaceList;
+//    }
+//
+//    public void createWorkspace(Workspace workspace){
+//         workspaceRepository.save(workspace);
+//    }
+
+    @Override
+    public void deleteById(Long id) {
+        if(workspaceRepository.existsById(id)){
+            workspaceRepository.deleteById(id);
+        }
+        throw new NotFoundByIdException();
     }
 
-    public void createWorkspace(Workspace workspace){
-         workspaceRepository.save(workspace);
+    @Override
+    public Workspace save(Workspace entity) {
+        return workspaceRepository.save(entity);
     }
 
     public Optional<Workspace> getById(Long id){
@@ -48,6 +61,16 @@ public class WorkspaceServiceImpl {
             throw new NotFoundByIdException();
         }
         return workspace;
+    }
+
+    @Override
+    public List<Workspace> getAll() {
+        List<Workspace> workspaceList = new ArrayList<>();
+
+        if(workspaceList.isEmpty()){
+            return workspaceList;
+        }
+        throw new EmptyListExcepption("Workspace list is empty");
     }
 
     public List<Workspace> findByType(WorkspaceType workspaceType){

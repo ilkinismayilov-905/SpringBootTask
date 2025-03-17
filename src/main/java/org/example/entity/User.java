@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
+
 @Entity(name="users")
 public class User {
     @Id
@@ -37,12 +39,12 @@ public class User {
     public User() {
     }
 
-    //    public User(long id, String name, String email, long age) {
-//        this.id = id;
-//        this.name = name;
-//        this.email = email;
-//        this.age = age;
-//    }
+        public User(long id, String name, String email, long age) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.age = age;
+    }
 
 
     public Long getId() {
@@ -75,5 +77,17 @@ public class User {
 
     public void setAge(Long age) {
         this.age = age;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) && Objects.equals(name, user.name) && Objects.equals(email, user.email) && Objects.equals(age, user.age);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, email, age);
     }
 }

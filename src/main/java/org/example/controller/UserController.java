@@ -25,15 +25,15 @@ public class UserController {
 
     @GetMapping("/getAll")
     public List<User> getUser(){
-       return userServiceImpl.getAllUsers();
+       return userServiceImpl.getAll();
     }
 
     //Delete
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable long id){
-       Optional<User> user = userServiceImpl.getUserById(id);
+       Optional<User> user = userServiceImpl.getById(id);
        if(user.isPresent()){
-           userServiceImpl.deleteUser(id);
+           userServiceImpl.deleteById(id);
            return ResponseEntity.ok().build();
        }
         return ResponseEntity.notFound().build();
@@ -42,10 +42,10 @@ public class UserController {
     //Update
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable long id, @Valid @RequestBody User user){
-        Optional<User> existingUser = userServiceImpl.getUserById(id);
+        Optional<User> existingUser = userServiceImpl.getById(id);
         if(existingUser.isPresent()){
             user.setId(id);
-            User userUpdated = userServiceImpl.createUser(user);
+            User userUpdated = userServiceImpl.save(user);
             return ResponseEntity.ok(userUpdated);
         }
         return ResponseEntity.notFound().build();
@@ -54,13 +54,13 @@ public class UserController {
     //ADD
     @PostMapping("/add")
     public ResponseEntity<User> createUser(@Valid @RequestBody User user){
-        userServiceImpl.createUser(user);
+        userServiceImpl.save(user);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
-        Optional<User> user = userServiceImpl.getUserById(id);
+        Optional<User> user = userServiceImpl.getById(id);
         return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 }

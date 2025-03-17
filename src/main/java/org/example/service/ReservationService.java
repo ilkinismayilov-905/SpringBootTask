@@ -1,4 +1,6 @@
 package org.example.service;
 
-public interface ReservationService<T,K> extends GeneralService{
+import org.example.entity.Reservation;
+
+public interface ReservationService extends GeneralService<Reservation,Long>{
 }

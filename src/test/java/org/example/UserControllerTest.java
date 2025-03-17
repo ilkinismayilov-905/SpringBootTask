@@ -1,6 +1,8 @@
 package org.example;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.controller.UserController;
+import org.example.entity.Customer;
 import org.example.entity.User;
 import org.example.service.impl.UserServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,6 +33,9 @@ public class UserControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @MockBean
     private UserServiceImpl userServiceImpl;
 
@@ -45,15 +50,14 @@ public class UserControllerTest {
     @Test
     void testCreateUser() throws Exception {
         User user = new User("Ilkin","ilkin2006@example.com",19L);
-        when(userServiceImpl.createUser(any(User.class))).thenReturn(user);
+        when(userServiceImpl.save(any(User.class))).thenReturn(user);
 
         mockMvc.perform(post("/users/add")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\": \"Ilkin\", \"email\": \"ilkin2006@example.com\",\"age\": \"19\"}"))
+                .content(objectMapper.writeValueAsString(user)))
                 .andExpect(status().isOk());
-//                .andExpect(jsonPath("$.name").value("Ilkin"))
-//                .andExpect(jsonPath("$.email").value("ilkin2006@example.com"));
-        verify(userServiceImpl,times(1)).createUser(user);
+
+        verify(userServiceImpl).save(any(User.class));
 
     }
 

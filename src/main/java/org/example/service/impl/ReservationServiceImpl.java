@@ -20,7 +20,7 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class ReservationServiceImpl {
+public class ReservationServiceImpl implements ReservationService {
 
     private final ReservationRepository reservationRepository;
 
@@ -29,33 +29,33 @@ public class ReservationServiceImpl {
         this.reservationRepository = reservationRepository;
     }
 
-    public List<Reservation> getAllReservations(){
-        List<Reservation> reservationList = new ArrayList<>();
-
-        for (Reservation reservation:reservationRepository.findAll()){
-            reservationList.add(reservation);
-        }
-        if(reservationList.isEmpty()){
-            throw new EmptyListExcepption("Reservation List Is Empty");
-
-        }        return reservationList;
-    }
-
-    public Reservation createReservation(Reservation reservation){
-        return reservationRepository.save(reservation);
-    }
-
+//    public List<Reservation> getAllReservations(){
+//        List<Reservation> reservationList = new ArrayList<>();
+//
+//        for (Reservation reservation:reservationRepository.findAll()){
+//            reservationList.add(reservation);
+//        }
+//        if(reservationList.isEmpty()){
+//            throw new EmptyListExcepption("Reservation List Is Empty");
+//
+//        }        return reservationList;
+//    }
+//
+//    public Reservation createReservation(Reservation reservation){
+//        return reservationRepository.save(reservation);
+//    }
+//
     public List<Reservation> findByStatus(ReservationStatus status){
         return reservationRepository.findByStatus(status);
     }
-
-    public void deleteReservationById(Long id){
-        Optional<Reservation> reservation = reservationRepository.findById(id);
-        if(reservation.isPresent()){
-            reservationRepository.deleteById(id);
-        }
-        throw new NotFoundByIdException();
-    }
+//
+//    public void deleteReservationById(Long id){
+//        Optional<Reservation> reservation = reservationRepository.findById(id);
+//        if(reservation.isPresent()){
+//            reservationRepository.deleteById(id);
+//        }
+//        throw new NotFoundByIdException();
+//    }
 
     @Scheduled(cron = "0 0 0 * * *")
     public void removeExpiredReservations(){
@@ -64,33 +64,32 @@ public class ReservationServiceImpl {
         reservationRepository.deleteAll(expiredReservations);
     }
 
+    @Override
+    public void deleteById(Long id) {
+        if(reservationRepository.existsById(id)){
+            reservationRepository.deleteById(id);
+        }
+        throw new NotFoundByIdException();
+    }
 
-//    @Override
-//    public void deleteById(Object id) {
-//        reservationRepository.deleteById((Long) id);
-//    }
-//
-//    @Override
-//    public Object save(Object entity) {
-//        return reservationRepository.save(entity);
-//    }
-//
-//    @Override
-//    public Optional<T> getById(Object id) {
-//        Optional<T> reserv = reservationRepository.findById(id);
-//
-//        if(reserv.isEmpty()){
-//            throw  new NotFoundByIdException();
-//        }
-//        return reserv;
-//    }
-//
-//    @Override
-//    public List<T> getAll() {
-//        List<T> reservationList = new ArrayList<>();
-//        for(Object reservation:reservationRepository.findAll()){
-//            reservationList.add((T) reservation);
-//        }
-//        return reservationList;
-//    }
+    @Override
+    public Reservation save(Reservation entity) {
+        return reservationRepository.save(entity);
+    }
+
+    @Override
+    public Optional<Reservation> getById(Long id) {
+        Optional<Reservation> reservation = reservationRepository.findById(id);
+        if(reservation.isEmpty()){
+           return reservationRepository.findById(id);
+        }
+        throw new NotFoundByIdException();
+    }
+
+    @Override
+    public List<Reservation> getAll() {
+        return reservationRepository.findAll();
+    }
+
+
 }

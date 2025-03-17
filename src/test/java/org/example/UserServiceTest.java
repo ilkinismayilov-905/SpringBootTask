@@ -13,9 +13,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -33,7 +33,7 @@ public class UserServiceTest {
         User user = new User("Ilkin","ilkin@gmail.com",19L);
         when(userRepository.save(any(User.class))).thenReturn(user);
 
-        User createdUser = userServiceImpl.createUser(user);
+        User createdUser = userServiceImpl.save(user);
 
         assertNotNull(createdUser);
         assertEquals("Ilkin",createdUser.getName());
@@ -50,8 +50,9 @@ public class UserServiceTest {
         );
         when(userRepository.findAll()).thenReturn(users);
 
-        List<User> retrievedUsers = userServiceImpl.getAllUsers();
+        List<User> retrievedUsers = userServiceImpl.getAll();
 
+        assertFalse(retrievedUsers.isEmpty());
         assertEquals(2, retrievedUsers.size());
         verify(userRepository, times(1)).findAll();
 
@@ -59,9 +60,17 @@ public class UserServiceTest {
 
     @Test
     void testDeleteUser(){
-        doNothing().when(userRepository).deleteById(1L);
-        userServiceImpl.deleteUser(1L);
-        verify(userRepository,times(1)).deleteById(1L);
+        Long userId = 1L;
+        User user = new User(userId, "Test User", "test@example.com",19L);
+
+
+        when(userRepository.findById(userId)).thenReturn(Optional.of(user));
+
+
+        userServiceImpl.deleteById(userId);
+
+
+        verify(userRepository, times(1)).deleteById(userId);
     }
 
 

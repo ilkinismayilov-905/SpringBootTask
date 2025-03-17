@@ -23,12 +23,12 @@ public class ReservationController {
 
     @GetMapping("/all")
     public ResponseEntity<List<Reservation>> getAllReservations(){
-        return ResponseEntity.ok(reservationServiceImpl.getAllReservations());
+        return ResponseEntity.ok(reservationServiceImpl.getAll());
     }
 
     @PostMapping("/add")
     public ResponseEntity<Reservation> createReservation(@RequestBody Reservation reservation){
-        Reservation createdReservation = reservationServiceImpl.createReservation(reservation);
+        Reservation createdReservation = reservationServiceImpl.save(reservation);
         return new ResponseEntity<>(createdReservation, HttpStatus.CREATED);
     }
 

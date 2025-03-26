@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.Objects;
 
 @Entity(name="users")
+@Data
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,10 +31,29 @@ public class User {
     @Min(value = 18, message = "Age sholud be at least 18")
     private Long age;
 
+    @Getter
+    @Setter
+    @Column(unique = true)
+    private String username;
+
+    @Getter
+    @Setter
+    private String password;
+
+    @Getter
+    @Setter
+    private String role;
+
     public User(String name, String email, long age) {
         this.name = name;
         this.email = email;
         this.age = age;
+    }
+
+    public User(String username, String password, String role) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
     }
 
     public User() {

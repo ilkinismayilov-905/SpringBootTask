@@ -29,15 +29,15 @@ public class UserController {
     }
 
     //Delete
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable long id){
-       Optional<User> user = userServiceImpl.getById(id);
-       if(user.isPresent()){
-           userServiceImpl.deleteById(id);
-           return ResponseEntity.ok().build();
-       }
-        return ResponseEntity.notFound().build();
-    }
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<Void> deleteUser(@PathVariable Long id){
+//       Optional<User> user = userServiceImpl.getById(id);
+//       if(user.isPresent()){
+//           userServiceImpl.deleteById(id);
+//           return ResponseEntity.ok().build();
+//       }
+//        return ResponseEntity.notFound().build();
+//    }
 
     //Update
     @PutMapping("/{id}")

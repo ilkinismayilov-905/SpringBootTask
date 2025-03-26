@@ -7,6 +7,7 @@ import org.example.exceptions.NotFoundByIdException;
 import org.example.repository.UserRepository;
 import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,13 +18,16 @@ import java.util.Optional;
 @Transactional
 public class UserServiceImpl implements UserService{
 
-
+    private PasswordEncoder passwordEncoder;
     private UserRepository userRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(PasswordEncoder passwordEncoder, UserRepository userRepository) {
+        this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
     }
+
+
 
 //    public User createUser(User user){
 //        return userRepository.save(user);
@@ -71,6 +75,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User save(User entity) {
+        entity.setPassword(passwordEncoder.encode(entity.getPassword()));
         return userRepository.save(entity);
     }
 

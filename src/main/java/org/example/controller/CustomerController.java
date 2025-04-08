@@ -10,6 +10,7 @@ import org.example.exceptions.NotFoundByIdException;
 import org.example.service.impl.CustomerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,12 +22,13 @@ public class CustomerController {
 
     private final CustomerServiceImpl customerServiceImpl;
 
+
     @Autowired
     public CustomerController(CustomerServiceImpl customerServiceImpl) {
         this.customerServiceImpl = customerServiceImpl;
     }
 
-    @GetMapping
+    @GetMapping("/getAll")
     public ResponseEntity<List<Customer>> getAll(){
         return ResponseEntity.ok(customerServiceImpl.getAll());
     }
@@ -46,7 +48,7 @@ public class CustomerController {
     @GetMapping("/{id}")
     public ResponseEntity<Optional<Customer>> getCustomerById(@PathVariable Long id){
         Optional<Customer> customer = customerServiceImpl.getById(id);
-        if (customer == null) {
+        if (customer.isEmpty()) {
             throw new NotFoundByIdException();
         }
         return ResponseEntity.ok(customer);
@@ -55,7 +57,7 @@ public class CustomerController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Optional<Customer>> deleteCustomer(@PathVariable Long id){
         Optional<Customer> customer = customerServiceImpl.getById(id);
-        if (customer == null) {
+        if (customer.isEmpty()) {
             throw new NotFoundByIdException();
         }
         customerServiceImpl.deleteById(id);

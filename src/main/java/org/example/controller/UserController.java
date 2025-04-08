@@ -6,6 +6,7 @@ import org.example.entity.User;
 import org.example.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,10 +18,12 @@ public class UserController {
 
 
     private UserServiceImpl userServiceImpl;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserController(UserServiceImpl userServiceImpl) {
+    public UserController(UserServiceImpl userServiceImpl,PasswordEncoder passwordEncoder) {
         this.userServiceImpl = userServiceImpl;
+        this.passwordEncoder=passwordEncoder;
     }
 
     @GetMapping("/getAll")
@@ -54,6 +57,7 @@ public class UserController {
     //ADD
     @PostMapping("/add")
     public ResponseEntity<User> createUser(@Valid @RequestBody User user){
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userServiceImpl.save(user);
         return ResponseEntity.ok().build();
     }

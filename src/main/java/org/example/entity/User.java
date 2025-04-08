@@ -6,9 +6,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.example.enums.Rolls;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity(name="users")
 @Data
@@ -31,18 +39,21 @@ public class User {
     @Min(value = 18, message = "Age sholud be at least 18")
     private Long age;
 
-    @Getter
-    @Setter
+
     @Column(unique = true)
     private String username;
 
-    @Getter
-    @Setter
+    @Column(name = "password",nullable = false)
     private String password;
 
-    @Getter
-    @Setter
-    private String role;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<RoleEntity> role = new HashSet<>();
 
     public User(String name, String email, long age) {
         this.name = name;
@@ -50,7 +61,7 @@ public class User {
         this.age = age;
     }
 
-    public User(String username, String password, String role) {
+    public User(String username, String password, Set<RoleEntity> role) {
         this.username = username;
         this.password = password;
         this.role = role;
@@ -66,38 +77,28 @@ public class User {
         this.age = age;
     }
 
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Long getAge() {
-        return age;
-    }
-
-    public void setAge(Long age) {
-        this.age = age;
-    }
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities(){
+//        Set<GrantedAuthority> authorities = role.getPermission().stream()
+//                .map(SimpleGrantedAuthority::new)
+//                .collect(Collectors.toSet());
+//
+//        authorities.add(new SimpleGrantedAuthority(role.name()));
+//        return authorities;
+//    }
+//
+//    @Override
+//    public boolean isAccountNonExpired(){ return true; }
+//
+//    @Override
+//    public boolean isAccountNonLocked(){ return true; }
+//
+//    @Override
+//    public boolean isCredentialsNonExpired(){ return true; }
+//
+//    @Override
+//    public boolean isEnabled() { return true; }
+//
 
     @Override
     public boolean equals(Object o) {

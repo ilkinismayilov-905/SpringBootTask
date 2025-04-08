@@ -24,7 +24,40 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerServiceImpl(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
-//
+
+
+    @Override
+    public void deleteById(Long id) {
+        if(customerRepository.existsById( id)){
+            customerRepository.deleteById( id);
+        }
+        throw new NotFoundByIdException();
+    }
+
+
+    @Override
+    public Optional<Customer> getById(Long id) {
+        Optional<Customer> customer =  customerRepository.findById( id);
+
+        if(customer.isEmpty()){
+            throw  new NotFoundByIdException();
+        }
+        return customer;
+    }
+
+    @Override
+    public Customer save(Customer entity) {
+        return customerRepository.save(entity);
+    }
+
+
+    @Override
+    public List<Customer> getAll() {
+        return customerRepository.findAll();
+    }
+
+
+    //
 //    public List<Customer> getAllCustomers(){
 //       List<Customer> customerList = new ArrayList<>();
 //       for(Customer customer:customerRepository.findAll()){
@@ -59,34 +92,4 @@ public class CustomerServiceImpl implements CustomerService {
 //        }
 //        throw new NotFoundByIdException();
 //    }
-
-    @Override
-    public void deleteById(Long id) {
-        if(customerRepository.existsById( id)){
-            customerRepository.deleteById( id);
-        }
-        throw new NotFoundByIdException();
-    }
-
-
-    @Override
-    public Optional<Customer> getById(Long id) {
-        Optional<Customer> customer =  customerRepository.findById( id);
-
-        if(customer.isEmpty()){
-            throw  new NotFoundByIdException();
-        }
-        return customer;
-    }
-
-    @Override
-    public Customer save(Customer entity) {
-        return customerRepository.save(entity);
-    }
-
-
-    @Override
-    public List<Customer> getAll() {
-        return customerRepository.findAll();
-    }
 }

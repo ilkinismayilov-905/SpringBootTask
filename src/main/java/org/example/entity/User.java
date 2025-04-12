@@ -12,10 +12,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity(name="users")
@@ -54,6 +51,12 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<RoleEntity> role = new HashSet<>();
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<AuthToken> tokens = new ArrayList<>();
+
+
+
 
     public User(String name, String email, long age) {
         this.name = name;

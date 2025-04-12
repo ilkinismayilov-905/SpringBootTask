@@ -65,12 +65,13 @@ public class WorkspaceServiceImpl implements WorkspaceService{
 
     @Override
     public List<Workspace> getAll() {
-        List<Workspace> workspaceList = new ArrayList<>();
+        List<Workspace> workspaceList = workspaceRepository.findAll();
 
         if(workspaceList.isEmpty()){
-            return workspaceList;
+            throw new EmptyListExcepption("Workspace list is empty");
+
         }
-        throw new EmptyListExcepption("Workspace list is empty");
+        return workspaceList;
     }
 
     public List<Workspace> findByType(WorkspaceType workspaceType){

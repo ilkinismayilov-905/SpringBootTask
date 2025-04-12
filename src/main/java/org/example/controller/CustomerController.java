@@ -11,6 +11,7 @@ import org.example.service.impl.CustomerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -45,14 +46,14 @@ public class CustomerController {
             @ApiResponse(responseCode = "404", description = "Customer not found")
     }
     )
-    @GetMapping("/{id}")
-    public ResponseEntity<Optional<Customer>> getCustomerById(@PathVariable Long id){
-        Optional<Customer> customer = customerServiceImpl.getById(id);
-        if (customer.isEmpty()) {
-            throw new NotFoundByIdException();
-        }
-        return ResponseEntity.ok(customer);
-    }
+//    @GetMapping("/{id}")
+//    public ResponseEntity<Optional<Customer>> getCustomerById(@PathVariable Long id){
+//        Optional<Customer> customer = customerServiceImpl.getById(id);
+//        if (customer.isEmpty()) {
+//            throw new NotFoundByIdException();
+//        }
+//        return ResponseEntity.ok(customer);
+//    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Optional<Customer>> deleteCustomer(@PathVariable Long id){
@@ -62,5 +63,15 @@ public class CustomerController {
         }
         customerServiceImpl.deleteById(id);
         return ResponseEntity.ok(customer);
+    }
+
+//    @GetMapping("/csrf-token")
+//    public CsrfToken csrfToken(CsrfToken token){
+//        return token;
+//    }
+
+    @GetMapping("/hello")
+    public String getHello() {
+        return "Get Hello!";
     }
 }

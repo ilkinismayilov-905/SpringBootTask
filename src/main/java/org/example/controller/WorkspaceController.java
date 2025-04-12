@@ -6,6 +6,7 @@ import org.example.enums.WorkspaceType;
 import org.example.service.impl.WorkspaceServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,12 +29,14 @@ public class WorkspaceController {
     }
 
     @PostMapping("/add")
+
     public ResponseEntity<Workspace> createWorkspace(@Valid @RequestBody Workspace workspace){
         workspaceServiceImpl.save(workspace);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{id}")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Workspace> getWorkspaceById(@PathVariable Long id) {
         Optional<Workspace> workspace = workspaceServiceImpl.getById(id);
         return workspace.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());

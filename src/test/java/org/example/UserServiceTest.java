@@ -1,7 +1,7 @@
 //package org.example;
 //
 //import org.example.entity.Customer;
-//import org.example.entity.User;
+//import org.example.entity.MainUser;
 //import org.example.repository.UserRepository;
 //import org.example.service.UserService;
 //import org.example.service.impl.UserServiceImpl;
@@ -30,10 +30,10 @@
 //
 //    @Test
 //    void testAddUser(){
-//        User user = new User("Ilkin","ilkin@gmail.com",19L);
-//        when(userRepository.save(any(User.class))).thenReturn(user);
+//        MainUser user = new MainUser("Ilkin","ilkin@gmail.com",19L);
+//        when(userRepository.save(any(MainUser.class))).thenReturn(user);
 //
-//        User createdUser = userServiceImpl.save(user);
+//        MainUser createdUser = userServiceImpl.save(user);
 //
 //        assertNotNull(createdUser);
 //        assertEquals("Ilkin",createdUser.getName());
@@ -44,13 +44,13 @@
 //
 //    @Test
 //    void testGetAll(){
-//        List<User> users = Arrays.asList(
-//                new User("Ilkin", "ilkin123@gmail.com", 19L),
-//                new User("Celil", "celil02@gmail.com", 18L)
+//        List<MainUser> users = Arrays.asList(
+//                new MainUser("Ilkin", "ilkin123@gmail.com", 19L),
+//                new MainUser("Celil", "celil02@gmail.com", 18L)
 //        );
 //        when(userRepository.findAll()).thenReturn(users);
 //
-//        List<User> retrievedUsers = userServiceImpl.getAll();
+//        List<MainUser> retrievedUsers = userServiceImpl.getAll();
 //
 //        assertFalse(retrievedUsers.isEmpty());
 //        assertEquals(2, retrievedUsers.size());
@@ -61,7 +61,7 @@
 //    @Test
 //    void testDeleteUser(){
 //        Long userId = 1L;
-//        User user = new User(userId, "Test User", "test@example.com",19L);
+//        MainUser user = new MainUser(userId, "Test MainUser", "test@example.com",19L);
 //
 //
 //        when(userRepository.findById(userId)).thenReturn(Optional.of(user));

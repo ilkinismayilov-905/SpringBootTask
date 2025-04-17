@@ -2,22 +2,13 @@ package org.example.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import org.example.enums.Rolls;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Entity(name="users")
 @Data
-public class User {
+public class MainUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -58,22 +49,22 @@ public class User {
 
 
 
-    public User(String name, String email, long age) {
+    public MainUser(String name, String email, long age) {
         this.name = name;
         this.email = email;
         this.age = age;
     }
 
-    public User(String username, String password, Set<RoleEntity> role) {
+    public MainUser(String username, String password, Set<RoleEntity> role) {
         this.username = username;
         this.password = password;
         this.role = role;
     }
 
-    public User() {
+    public MainUser() {
     }
 
-        public User(long id, String name, String email, long age) {
+        public MainUser(long id, String name, String email, long age) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -106,8 +97,8 @@ public class User {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(name, user.name) && Objects.equals(email, user.email) && Objects.equals(age, user.age);
+        MainUser mainUser = (MainUser) o;
+        return Objects.equals(id, mainUser.id) && Objects.equals(name, mainUser.name) && Objects.equals(email, mainUser.email) && Objects.equals(age, mainUser.age);
     }
 
     @Override

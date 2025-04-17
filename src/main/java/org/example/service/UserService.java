@@ -1,6 +1,7 @@
 package org.example.service;
 
-import org.example.entity.User;
+import org.example.entity.MainUser;
 
-public interface UserService extends GeneralService<User,Long> {
+public interface UserService extends GeneralService<MainUser,Long> {
+
 }

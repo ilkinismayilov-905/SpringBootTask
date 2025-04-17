@@ -1,11 +1,8 @@
 package org.example.service.impl;
 
 import jakarta.transaction.Transactional;
-import org.example.entity.Customer;
 import org.example.entity.Reservation;
-import org.example.entity.User;
 import org.example.enums.ReservationStatus;
-import org.example.exceptions.EmptyListExcepption;
 import org.example.exceptions.NotFoundByIdException;
 import org.example.repository.ReservationRepository;
 import org.example.service.ReservationService;
@@ -14,7 +11,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 

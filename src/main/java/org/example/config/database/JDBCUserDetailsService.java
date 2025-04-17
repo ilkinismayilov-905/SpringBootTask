@@ -1,10 +1,9 @@
 package org.example.config.database;
 
 
+import org.example.entity.MainUser;
 import org.example.entity.PermissionEntity;
 import org.example.entity.RoleEntity;
-import org.example.entity.User;
-import org.example.entity.UserData;
 import org.example.repository.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -14,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -28,11 +28,11 @@ public class JDBCUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
+        Optional<MainUser> mainUser = userRepository.findByUsername(username);
 
         Set<GrantedAuthority>  authorities = new HashSet<>();
 
-        for (RoleEntity role : user.getRole()){
+        for (RoleEntity role : mainUser.get().getRole()){
             authorities.add(new SimpleGrantedAuthority(role.getName().name()));
 
             for(PermissionEntity permission : role.getPermission()){
@@ -40,8 +40,8 @@ public class JDBCUserDetailsService implements UserDetailsService {
             }
         }
         return new org.springframework.security.core.userdetails.User(
-                user.getUsername(),
-                user.getPassword(),
+                mainUser.get().getUsername(),
+                mainUser.get().getPassword(),
                 authorities
         );
     }

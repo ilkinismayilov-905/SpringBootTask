@@ -20,8 +20,8 @@
 //    @Override
 //    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 //        Optional<UserData> userData = Optional.ofNullable(userDataRepository.findByUsername(username)
-//                .orElseThrow(() -> new UsernameNotFoundException("User not found")));
-//        return new org.springframework.security.core.userdetails.User(
+//                .orElseThrow(() -> new UsernameNotFoundException("MainUser not found")));
+//        return new org.springframework.security.core.userdetails.MainUser(
 //                userData.get().getUsername(),
 //                userData.get().getPassword(),
 //                Collections.singleton(new SimpleGrantedAuthority("ROLE_" + userData.get().getRole())));

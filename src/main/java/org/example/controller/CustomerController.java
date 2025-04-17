@@ -6,11 +6,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.example.entity.Customer;
 //import org.example.exceptionHandler.GlobalExceptionHandler;
+import org.example.entity.MainUser;
 import org.example.exceptions.NotFoundByIdException;
+import org.example.repository.UserRepository;
 import org.example.service.impl.CustomerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,11 +25,13 @@ import java.util.Optional;
 public class CustomerController {
 
     private final CustomerServiceImpl customerServiceImpl;
+    private final UserRepository userRepository;
 
 
     @Autowired
-    public CustomerController(CustomerServiceImpl customerServiceImpl) {
+    public CustomerController(CustomerServiceImpl customerServiceImpl,UserRepository userRepository) {
         this.customerServiceImpl = customerServiceImpl;
+        this.userRepository=userRepository;
     }
 
     @GetMapping("/getAll")
@@ -65,13 +70,23 @@ public class CustomerController {
         return ResponseEntity.ok(customer);
     }
 
-//    @GetMapping("/csrf-token")
-//    public CsrfToken csrfToken(CsrfToken token){
-//        return token;
-//    }
+    @GetMapping("/csrf-token")
+    public CsrfToken csrfToken(CsrfToken token){
+        return token;
+    }
 
     @GetMapping("/hello")
     public String getHello() {
         return "Get Hello!";
     }
+
+    @GetMapping("/me")
+    public ResponseEntity<?> getAuthenticatedUser(
+            Authentication authentication) {
+
+        User user = (User) authentication.getPrincipal();
+        Optional<MainUser> me = userRepository.findByUsername(user.getUsername());
+        return ResponseEntity.ok(me);
+    }
+
 }

@@ -44,10 +44,12 @@ public class    SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
 //        http.formLogin();
 
-        http.csrf(c -> {
-            c.csrfTokenRepository(customTokenRepository());
-            c.ignoringRequestMatchers("/hello");
-        })
+//        http.csrf(c -> {
+//                    c.ignoringRequestMatchers("/hello");
+//                    c.csrfTokenRepository(customTokenRepository());
+//        })
+        http
+                .csrf().disable()
                 .sessionManagement(session -> session.sessionCreationPolicy(
                         SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
@@ -58,8 +60,8 @@ public class    SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(loggingFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(staticKeyAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
+//                .addFilterBefore(staticKeyAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+//                .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
                 .httpBasic()
                 .and()
                 .formLogin(withDefaults())
@@ -85,13 +87,4 @@ public class    SecurityConfig {
         return new CustomCsrfTokenRepository();
     }
 
-//    protected void configure(HttpSecurity http)
-//            throws Exception {
-//        http.csrf(c -> {
-//            c.csrfTokenRepository(customTokenRepository());
-//            c.ignoringRequestMatchers("/ciao");
-//        });
-//        http.authorizeRequests()
-//                .anyRequest().permitAll();
-//    }
 }

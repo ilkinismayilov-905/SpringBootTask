@@ -1,15 +1,13 @@
 package org.example.repository;
 
-import org.example.entity.User;
-import org.example.entity.UserData;
-import org.springframework.data.domain.Example;
+import org.example.entity.MainUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
-    public User findUserById(Long id);
-    public User findByUsername(String username);
+public interface UserRepository extends JpaRepository<MainUser, Long> {
+    public MainUser findUserById(Long id);
+    public Optional<MainUser> findByUsername(String username);
 }

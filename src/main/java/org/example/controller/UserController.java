@@ -2,7 +2,7 @@ package org.example.controller;
 
 
 import jakarta.validation.Valid;
-import org.example.entity.User;
+import org.example.entity.MainUser;
 import org.example.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,14 +27,14 @@ public class UserController {
     }
 
     @GetMapping("/getAll")
-    public List<User> getUser(){
+    public List<MainUser> getUser(){
        return userServiceImpl.getAll();
     }
 
     //Delete
 //    @DeleteMapping("/{id}")
 //    public ResponseEntity<Void> deleteUser(@PathVariable Long id){
-//       Optional<User> user = userServiceImpl.getById(id);
+//       Optional<MainUser> user = userServiceImpl.getById(id);
 //       if(user.isPresent()){
 //           userServiceImpl.deleteById(id);
 //           return ResponseEntity.ok().build();
@@ -44,27 +44,27 @@ public class UserController {
 
     //Update
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable long id, @Valid @RequestBody User user){
-        Optional<User> existingUser = userServiceImpl.getById(id);
+    public ResponseEntity<MainUser> updateUser(@PathVariable long id, @Valid @RequestBody MainUser mainUser){
+        Optional<MainUser> existingUser = userServiceImpl.getById(id);
         if(existingUser.isPresent()){
-            user.setId(id);
-            User userUpdated = userServiceImpl.save(user);
-            return ResponseEntity.ok(userUpdated);
+            mainUser.setId(id);
+            MainUser mainUserUpdated = userServiceImpl.save(mainUser);
+            return ResponseEntity.ok(mainUserUpdated);
         }
         return ResponseEntity.notFound().build();
     }
 
     //ADD
     @PostMapping("/add")
-    public ResponseEntity<User> createUser(@Valid @RequestBody User user){
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userServiceImpl.save(user);
+    public ResponseEntity<MainUser> createUser(@Valid @RequestBody MainUser mainUser){
+        mainUser.setPassword(passwordEncoder.encode(mainUser.getPassword()));
+        userServiceImpl.save(mainUser);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
-        Optional<User> user = userServiceImpl.getById(id);
+    public ResponseEntity<MainUser> getUserById(@PathVariable Long id) {
+        Optional<MainUser> user = userServiceImpl.getById(id);
         return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 }

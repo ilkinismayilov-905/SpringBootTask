@@ -2,7 +2,7 @@
 //
 //import org.springframework.context.annotation.Bean;
 //import org.springframework.context.annotation.Configuration;
-//import org.springframework.security.core.userdetails.User;
+//import org.springframework.security.core.userdetails.MainUser;
 //import org.springframework.security.core.userdetails.UserDetails;
 //import org.springframework.security.core.userdetails.UserDetailsService;
 //import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,7 +16,7 @@
 //
 //        InMemoryUserDetailsManager userDetailsService = new InMemoryUserDetailsManager();
 //
-//        UserDetails user = User.builder()
+//        UserDetails user = MainUser.builder()
 //                .username("admin")
 //                .password(passwordEncoder.encode("password"))
 //                .roles("ADMIN")

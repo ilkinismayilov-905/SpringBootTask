@@ -3,7 +3,7 @@
 //import com.fasterxml.jackson.databind.ObjectMapper;
 //import org.example.controller.UserController;
 //import org.example.entity.Customer;
-//import org.example.entity.User;
+//import org.example.entity.MainUser;
 //import org.example.service.impl.UserServiceImpl;
 //import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.Test;
@@ -49,15 +49,15 @@
 //
 //    @Test
 //    void testCreateUser() throws Exception {
-//        User user = new User("Ilkin","ilkin2006@example.com",19L);
-//        when(userServiceImpl.save(any(User.class))).thenReturn(user);
+//        MainUser user = new MainUser("Ilkin","ilkin2006@example.com",19L);
+//        when(userServiceImpl.save(any(MainUser.class))).thenReturn(user);
 //
 //        mockMvc.perform(post("/users/add")
 //                .contentType(MediaType.APPLICATION_JSON)
 //                .content(objectMapper.writeValueAsString(user)))
 //                .andExpect(status().isOk());
 //
-//        verify(userServiceImpl).save(any(User.class));
+//        verify(userServiceImpl).save(any(MainUser.class));
 //
 //    }
 //

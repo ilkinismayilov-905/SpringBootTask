@@ -3,7 +3,7 @@
 //import com.fasterxml.jackson.databind.ObjectMapper;
 //import org.example.controller.CustomerController;
 //import org.example.entity.Customer;
-//import org.example.entity.User;
+//import org.example.entity.MainUser;
 //import org.example.service.impl.CustomerServiceImpl;
 //import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.Test;

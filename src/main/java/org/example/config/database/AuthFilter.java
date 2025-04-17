@@ -1,7 +1,7 @@
 package org.example.config.database;
 
 import org.example.entity.AuthToken;
-import org.example.entity.User;
+import org.example.entity.MainUser;
 import org.example.repository.AuthTokenRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -40,7 +40,7 @@ public class AuthFilter extends OncePerRequestFilter {
 
             if(tokenOpt.isPresent() && tokenOpt.get().getExpiresAt().isAfter(LocalDateTime.now())){
 
-                User user = tokenOpt.get().getUser();
+                MainUser user = tokenOpt.get().getUser();
 
                 Authentication auth = new UsernamePasswordAuthenticationToken(
                         user.getUsername(),

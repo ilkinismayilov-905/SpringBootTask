@@ -3,7 +3,7 @@
 //import jakarta.security.auth.message.AuthException;
 //import jakarta.security.auth.message.config.ClientAuthConfig;
 //import jakarta.security.auth.message.config.ServerAuthConfig;
-//import org.example.entity.User;
+//import org.example.entity.MainUser;
 //import org.example.entity.UserData;
 //import org.example.repository.UserRepository;
 //import org.springframework.security.authentication.AuthenticationProvider;
@@ -32,7 +32,7 @@
 //        String userName = authentication.getName();
 //        String password = authentication.getCredentials().toString();
 //
-//        User userData = userRepository.findByUsername(userName);
+//        MainUser userData = userRepository.findByUsername(userName);
 //
 //        if(!passwordEncoder.matches(password,userData.getPassword())){
 //            try {

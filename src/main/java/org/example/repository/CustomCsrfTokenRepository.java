@@ -33,15 +33,19 @@ public class CustomCsrfTokenRepository implements CsrfTokenRepository {
             HttpServletResponse httpServletResponse) {
         String identifier =
                 httpServletRequest.getHeader("X-IDENTIFIER");
+
         Optional<Token> existingToken =
                 jpaTokenRepository.findTokenByIdentifier(identifier);
+
         if (existingToken.isPresent()) {
             Token token = existingToken.get();
             token.setToken(csrfToken.getToken());
+            System.out.println("ASDNASDASDASD" + csrfToken.getToken());
         } else {
             Token token = new Token();
             token.setToken(csrfToken.getToken());
             token.setIdentifier(identifier);
+            System.out.println("SAVEE" + csrfToken.getToken());
             jpaTokenRepository.save(token);
         }
     }

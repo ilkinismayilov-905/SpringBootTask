@@ -20,5 +20,5 @@ public class AuthToken {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private MainUser user;
 }

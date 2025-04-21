@@ -90,6 +90,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>com.github.ilkinismayilov-905</groupId>-->
+<!--			<artifactId>SpringBootSecurityServer</artifactId>-->
+<!--			<version>v1.0.0</version> &lt;!&ndash; or use commit hash &ndash;&gt;-->
+<!--		</dependency>-->
+
 
 	</dependencies>
 
@@ -102,6 +108,10 @@
 		</plugins>
 	</build>
 	<repositories>
+		<repository>
+			<id>jitpack.io</id>
+			<url>https://jitpack.io</url>
+		</repository>
 		<repository>
 			<id>spring-milestones</id>
 			<name>Spring Milestones</name>

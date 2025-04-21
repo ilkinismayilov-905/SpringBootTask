@@ -1,6 +1,8 @@
 package org.example.service.impl;
 
+
 import jakarta.transaction.Transactional;
+
 import org.example.entity.OTP;
 import org.example.repository.OtpRepository;
 import org.hibernate.annotations.SecondaryRow;

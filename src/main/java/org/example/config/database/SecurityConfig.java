@@ -1,5 +1,6 @@
 package org.example.config.database;
 
+//import org.example.repository.CustomCsrfTokenRepository;
 import org.example.repository.CustomCsrfTokenRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -57,7 +58,7 @@ public class    SecurityConfig {
 //                        .requestMatchers("/workspace/**").hasAuthority("READ")
 //                        .requestMatchers("/workspace/**").hasRole("USER")
 //                        .requestMatchers("/customers/**").hasRole("ADMIN")
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
                 .addFilterBefore(loggingFilter, UsernamePasswordAuthenticationFilter.class)
 //                .addFilterBefore(staticKeyAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
@@ -71,16 +72,18 @@ public class    SecurityConfig {
         return http.build();
     }
 
-//    @Bean
-//    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception{
-//        return authenticationConfiguration.getAuthenticationManager();
-//    }
-
     @Bean
     public PasswordEncoder passwordEncoder() {
 //        return new BCryptPasswordEncoder();
         return NoOpPasswordEncoder.getInstance();
     }
+
+//    @Bean
+//    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception{
+//        return authenticationConfiguration.getAuthenticationManager();
+//    }
+
+
 
     @Bean
     public CsrfTokenRepository customTokenRepository() {

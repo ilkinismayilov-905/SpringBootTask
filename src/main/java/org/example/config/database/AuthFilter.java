@@ -1,12 +1,12 @@
 package org.example.config.database;
 
-import org.example.entity.AuthToken;
-import org.example.entity.MainUser;
-import org.example.repository.AuthTokenRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.example.entity.AuthToken;
+import org.example.entity.MainUser;
+import org.example.repository.AuthTokenRepository;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

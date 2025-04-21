@@ -43,8 +43,8 @@ public class MainUser {
     )
     private Set<RoleEntity> role = new HashSet<>();
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
-    private List<AuthToken> tokens = new ArrayList<>();
+//    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
+//    private List<AuthToken> tokens = new ArrayList<>();
 
 
 

@@ -3,7 +3,9 @@ package org.example.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -11,6 +13,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity(name = "customers")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Customer {
 
     @Id
@@ -49,38 +54,38 @@ public class Customer {
         this.phone = phone;
     }
 
-    public Customer() {
-    }
-
-    public Long getId() {
-        return customerId;
-    }
-
-    public void setId(Long customerId) {
-        this.customerId = customerId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
+//    public Customer() {
+//    }
+//
+//    public Long getId() {
+//        return customerId;
+//    }
+//
+//    public void setId(Long customerId) {
+//        this.customerId = customerId;
+//    }
+//
+//    public String getName() {
+//        return name;
+//    }
+//
+//    public void setName(String name) {
+//        this.name = name;
+//    }
+//
+//    public String getEmail() {
+//        return email;
+//    }
+//
+//    public void setEmail(String email) {
+//        this.email = email;
+//    }
+//
+//    public String getPhone() {
+//        return phone;
+//    }
+//
+//    public void setPhone(String phone) {
+//        this.phone = phone;
+//    }
 }
